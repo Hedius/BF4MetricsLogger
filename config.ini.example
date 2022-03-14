@@ -1,0 +1,15 @@
+[General]
+logging_interval = 60
+
+[AdKatsDB]
+host =
+port =
+db =
+user =
+pw =
+
+[InfluxDB]
+host =
+org =
+bucket =
+token =
