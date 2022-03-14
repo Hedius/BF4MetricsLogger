@@ -19,7 +19,7 @@ WORKDIR /usr/src/app
 # Install dependencies
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-RUN chown pythonRun:pythonRun -R /usr/src/app /var/e4gl_bot
+RUN chown pythonRun:pythonRun -R /usr/src/app
 
 USER pythonRun:pythonRun
 
