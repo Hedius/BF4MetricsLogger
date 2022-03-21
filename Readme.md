@@ -8,6 +8,11 @@ This python app uses your PRoCon DB (Stats Logger) and GameStatsAPI to log the f
 * Used Slots
 * Seeded Slots
 
+**Influx stats**:
+ * Tags: server_id, GUID
+ * Measurement: server_status
+ * Fields: used_slots, seeded_slots, max_slots
+
 # Setup
 ## 1. docker (docker-compose)
  1. clone the repository
