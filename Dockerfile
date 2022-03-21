@@ -5,7 +5,7 @@ ARG UID=4000
 ARG GID=4000
 
 LABEL maintainer="Hedius @ gitlab.com/hedius" \
-      description="image for PlayerCountLogger" \
+      description="image for BF4MetricsLogger" \
       version="1.0.0"
 
 # account for execution of script
@@ -23,4 +23,4 @@ RUN chown pythonRun:pythonRun -R /usr/src/app
 
 USER pythonRun:pythonRun
 
-CMD ["python3", "PlayerCountLogger.py", "-c", "config.ini"]
+CMD ["python3", "BF4MetricsLogger.py", "-c", "config.ini"]
