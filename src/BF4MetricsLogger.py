@@ -64,7 +64,7 @@ class PlayerCountLogger:
                 queue=server_stats['inQueue'],
                 mode=server_stats['mode'],
                 cur_map=server_stats['currentMap'],
-                favorites=server_stats['favorites'],
+                favorites=int(server_stats['favorites']),
             )
 
     def run(self):
