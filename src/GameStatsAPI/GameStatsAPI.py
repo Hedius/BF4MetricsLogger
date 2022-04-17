@@ -54,3 +54,13 @@ class GameStatsAPI:
         return await self.api_request(
             f'/bf4/servers/?name={quote(name)}&region=all&platform=pc&limit=50&lang=en-us'
         )
+
+    async def get_bf4_server_detailed(self, name):
+        """
+        Get bf4 servers by name.
+        :param name: server name
+        :return: results
+        """
+        return await self.api_request(
+            f'/bf4/detailedserver/?name={quote(name)}&region=all&platform=pc&lang=en-us'
+        )

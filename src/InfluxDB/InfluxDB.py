@@ -32,13 +32,18 @@ class InfluxDB:
         )
         return client
 
-    def log(self, server_id, used_slots, seeded_slots, max_slots):
+    def log(self, server_id, used_slots, seeded_slots, max_slots,
+            queue, mode, cur_map, favorites):
         """
         Log the given data to influx
         :param server_id:
         :param used_slots:
         :param seeded_slots:
         :param max_slots:
+        :param queue:
+        :param mode:
+        :param cur_map:
+        :param favorites:
         :return:
         """
         measurement = {
@@ -47,7 +52,11 @@ class InfluxDB:
             'fields': {
                 'used_slots': used_slots,
                 'seeded_slots': seeded_slots,
-                'max_slots': max_slots
+                'max_slots': max_slots,
+                'queue': queue,
+                'mode': mode,
+                'map': cur_map,
+                'favorites': favorites
             },
             'time': datetime.datetime.utcnow()
         }
