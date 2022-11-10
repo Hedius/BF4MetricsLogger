@@ -1,3 +1,6 @@
+import asyncio.exceptions
+import logging
+
 import aiohttp
 from urllib.parse import quote
 
@@ -35,15 +38,18 @@ class GameStatsAPI:
         """
         full_url = self._base_url.rstrip('/') + '/' + url.lstrip('/')
         # We really should reuse sessions, but tbh: IDC :)
-        timeout = aiohttp.ClientTimeout(total=5)
-        async with aiohttp.ClientSession(headers=self._headers) as s:
-            async with s.get(full_url, timeout=timeout,
-                             **kwargs) as r:
-                if r.status > 300:
-                    raise GameStatsAPIException(
-                        f'API Request failed: {await r.text()}')
-                json = await r.json()
-                return json
+        timeout = aiohttp.ClientTimeout(total=8)
+        try:
+            async with aiohttp.ClientSession(headers=self._headers) as s:
+                async with s.get(full_url, timeout=timeout,
+                                 **kwargs) as r:
+                    if r.status > 300:
+                        raise GameStatsAPIException(
+                            f'API Request failed: {await r.text()}')
+                    json = await r.json()
+                    return json
+        except asyncio.exceptions.TimeoutError as e:
+            raise GameStatsAPIException(str(e))
 
     async def get_bf4_servers(self, name):
         """

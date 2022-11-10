@@ -36,7 +36,8 @@ class PlayerCountLogger:
         """
         try:
             server = await self.api.get_bf4_server_detailed(name)
-        except GameStatsAPIException:
+        except GameStatsAPIException as e:
+            logging.exception(e)
             return
 
         if battlelog_id in server['serverLink']:
