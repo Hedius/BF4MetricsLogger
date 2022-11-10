@@ -1,5 +1,4 @@
 import asyncio.exceptions
-import logging
 
 import aiohttp
 from urllib.parse import quote
