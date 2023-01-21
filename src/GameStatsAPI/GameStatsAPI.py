@@ -1,5 +1,3 @@
-import asyncio.exceptions
-
 import aiohttp
 from urllib.parse import quote
 
