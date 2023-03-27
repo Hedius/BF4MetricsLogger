@@ -7,11 +7,16 @@
 This python app uses your PRoCon DB (Stats Logger) and GameStatsAPI to log the following metrics to an InfluxDB:
 * Used Slots
 * Seeded Slots
+* Max Slots
+* Queue
+* Map
+* Game mode
+* Favorites (In-Game)
 
 **Influx stats**:
  * Tags: server_id, GUID
  * Measurement: server_status
- * Fields: used_slots, seeded_slots, max_slots
+ * Fields: used_slots, seeded_slots, max_slots, queue, map, mode, favorites
 
 # Setup
 ## 1. docker (docker-compose)
