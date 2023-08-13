@@ -1,7 +1,7 @@
 version: '2.4'
 services:
   logger:
-    image: registry.gitlab.com/e4gl/bf4metricslogger:latest
+    image: hedius/bf4metricslogger:latest
     userns_mode: "host"
     restart: unless-stopped
     volumes:
