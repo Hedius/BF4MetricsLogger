@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.11
 
 # User and Group ID of the account used for execution
 ARG UID=4000
