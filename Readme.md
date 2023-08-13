@@ -1,8 +1,8 @@
 # BF4 Metrics Logger
 
-[![pipeline status](https://gitlab.com/e4gl/bf4metricslogger/badges/main/pipeline.svg)](https://gitlab.com/e4gl/bf4metricslogger/-/commits/main)
+<!-- [![pipeline status](https://git.hedservers.com/e4gl/bf4metricslogger/badges/main/pipeline.svg)](https://git.hedservers.com/e4gl/bf4metricslogger/-/commits/main) -->
 [![Discord](https://img.shields.io/discord/388757799875903489.svg?colorB=7289DA&label=Discord&logo=Discord&logoColor=7289DA&style=flat-square)](https://discord.e4gl.com/)
-<!-- [![Docker Pulls](https://img.shields.io/docker/pulls/hedius/bf4metricsloggger.svg?style=flat-square)](https://hub.docker.com/r/hedius/bf4metricslogger/) -->
+[![Docker Pulls](https://img.shields.io/docker/pulls/hedius/bf4metricsloggger.svg?style=flat-square)](https://hub.docker.com/r/hedius/bf4metricslogger/)
 
 This python app uses your PRoCon DB (Stats Logger) and GameStatsAPI to log the following metrics to an InfluxDB:
 * Used Slots
