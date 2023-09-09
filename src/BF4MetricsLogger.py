@@ -53,10 +53,18 @@ class PlayerCountLogger:
         servers = await self.adk.get_status_of_servers()
 
         for server in servers:
-            server_stats = await self._get_server_stats(server.name,
-                                                        server.guid)
-            if server_stats is None:
-                continue
+            server_stats = {
+                'playerAmount': server.used_slots,
+                'inQueue': 0,
+                'mode': 'unknown',
+                'currentMap': 'unknown',
+                'favorites': 0
+            }
+            if server.guid is not None:
+                server_stats = await self._get_server_stats(server.name,
+                                                            server.guid)
+                if server_stats is None:
+                    continue
 
             # this one is synchronous :) makes the whole async stuff useless
             # lazy
