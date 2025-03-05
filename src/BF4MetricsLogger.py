@@ -52,7 +52,7 @@ class PlayerCountLogger:
                 map=server['currentMap'],
                 players=server['playerAmount'],
                 queue=server['inQueue'],
-                favorites=server['favorites'],
+                favorites=int(server['favorites']),
             )
 
         logging.critical(f'Unable to find API profile for {name}')
