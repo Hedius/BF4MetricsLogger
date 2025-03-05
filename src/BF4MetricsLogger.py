@@ -8,8 +8,10 @@ from pathlib import Path
 from typing import Tuple
 
 from AdKatsDB.AdKatsDB import AdKatsDB
+from BBRAPI.BBRAPI import BBRAPI
 from GameStatsAPI.GameStatsAPI import GameStatsAPI, GameStatsAPIException
 from InfluxDB.InfluxDB import InfluxDB
+from utils import StatsEntry
 
 
 class PlayerCountLogger:
@@ -24,6 +26,7 @@ class PlayerCountLogger:
         """
         self.adk = adk
         self.api = api
+        self.bbr = BBRAPI()
         self.influx = influx
         self.log_interval = log_interval
 
@@ -44,39 +47,43 @@ class PlayerCountLogger:
             return
 
         if battlelog_id in server['serverLink']:
-            return server
+            return StatsEntry(
+                mode=server['mode'],
+                map=server['currentMap'],
+                players=server['playerAmount'],
+                queue=server['inQueue'],
+                favorites=server['favorites'],
+            )
 
         logging.critical(f'Unable to find API profile for {name}')
         return None
 
     async def check(self):
+        await self.bbr.update()
         servers = await self.adk.get_status_of_servers()
 
         for server in servers:
-            server_stats = {
-                'playerAmount': server.used_slots,
-                'inQueue': 0,
-                'mode': 'unknown',
-                'currentMap': 'unknown',
-                'favorites': 0
-            }
-            if server.guid is not None:
-                server_stats = await self._get_server_stats(server.name,
-                                                            server.guid)
-                if server_stats is None:
-                    continue
+            server_stats = None
+            if server.game == 'BF4':
+                if server.guid is not None:
+                    server_stats = await self._get_server_stats(server.name,
+                                                                server.guid)
+            elif server.game == 'BBR':
+                server_stats = await self.bbr.get_server_status(server.name)
+            if server_stats is None:
+                server_stats = StatsEntry()
 
             # this one is synchronous :) makes the whole async stuff useless
             # lazy
             self.influx.log(
                 server_id=server.server_id,
                 used_slots=server.used_slots,
-                seeded_slots=server_stats['playerAmount'],
+                seeded_slots=server_stats.players,
                 max_slots=server.max_slots,
-                queue=server_stats['inQueue'],
-                mode=server_stats['mode'],
-                cur_map=server_stats['currentMap'],
-                favorites=int(server_stats['favorites']),
+                queue=server_stats.queue,
+                mode=server_stats.mode,
+                cur_map=server_stats.map,
+                favorites=server_stats.favorites,
             )
 
     def run(self):

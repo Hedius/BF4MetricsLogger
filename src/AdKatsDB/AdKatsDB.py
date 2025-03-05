@@ -16,8 +16,10 @@ class AdKatsDB(MariaDB):
             ts.ServerName as name,
             ts.usedSlots AS used_slots,
             ts.maxSlots AS max_slots,
+            tg.Name AS game,
             bss.battlelog_guid AS guid
         FROM tbl_server ts
+        INNER JOIN tbl_games tg ON ts.gameID = tg.gameID
         LEFT OUTER JOIN bfacp_settings_servers bss
             ON ts.ServerID = bss.server_id
         WHERE ConnectionState != 'off'
