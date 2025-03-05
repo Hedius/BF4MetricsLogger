@@ -26,8 +26,7 @@ class BBRAPI:
         }
         url = 'https://publicapi.battlebit.cloud/Servers/GetServerList'
         try:
-            async with aiohttp.get(url, headers=headers) as r:
-                # Dirty... :)
+            async with aiohttp.ClientSession(headers=headers).get(url) as r:
                 data = (await r.text()).encode().decode('utf-8-sig')
                 self.data = json.loads(data)
         except (TypeError, aiohttp.ClientError, aiohttp.ContentTypeError,
