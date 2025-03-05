@@ -5,7 +5,7 @@ Inheritance, and a better dynamic datasource logic would be better...
 """
 import json
 import logging
-from typing import Optional, Dict
+from typing import Optional
 
 import aiohttp
 
@@ -30,7 +30,8 @@ class BBRAPI:
                 # Dirty... :)
                 data = (await r.text()).encode().decode('utf-8-sig')
                 self.data = json.loads(data)
-        except (TypeError, aiohttp.ClientError, aiohttp.ContentTypeError, json.JSONDecodeError) as e:
+        except (TypeError, aiohttp.ClientError, aiohttp.ContentTypeError,
+                json.JSONDecodeError) as e:
             logging.error(f'Fetch from BBR API failed: {e}')
 
     async def get_server_status(self, name: str) -> Optional[StatsEntry]:
