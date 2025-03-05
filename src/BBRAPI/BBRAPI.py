@@ -26,9 +26,10 @@ class BBRAPI:
         }
         url = 'https://publicapi.battlebit.cloud/Servers/GetServerList'
         try:
-            async with aiohttp.ClientSession(headers=headers).get(url) as r:
-                data = (await r.text()).encode().decode('utf-8-sig')
-                self.data = json.loads(data)
+            async with aiohttp.ClientSession(headers=headers) as s:
+                async with s.get(url) as r:
+                    data = (await r.text()).encode().decode('utf-8-sig')
+                    self.data = json.loads(data)
         except (TypeError, aiohttp.ClientError, aiohttp.ContentTypeError,
                 json.JSONDecodeError) as e:
             logging.error(f'Fetch from BBR API failed: {e}')

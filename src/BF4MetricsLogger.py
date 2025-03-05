@@ -99,7 +99,10 @@ class PlayerCountLogger:
 
                 done = datetime.datetime.now()
                 delta = (done - start).total_seconds()
-                time.sleep(self.log_interval - delta)
+                try:
+                    time.sleep(self.log_interval - delta)
+                except ValueError:
+                    pass
         finally:
             loop.close()
 
