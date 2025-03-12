@@ -5,7 +5,7 @@ import time
 from argparse import ArgumentParser
 from configparser import ConfigParser
 from pathlib import Path
-from typing import Tuple
+from typing import Dict, Tuple
 
 from AdKatsDB.AdKatsDB import AdKatsDB
 from BBRAPI.BBRAPI import BBRAPI
@@ -29,6 +29,8 @@ class PlayerCountLogger:
         self.bbr = BBRAPI()
         self.influx = influx
         self.log_interval = log_interval
+
+        self.server_stats_cache: Dict[int, StatsEntry] = {}
 
     async def _get_server_stats(self, name: str, battlelog_id):
         """
@@ -71,7 +73,9 @@ class PlayerCountLogger:
             elif server.game == 'BBR':
                 server_stats = await self.bbr.get_server_status(server.name)
             if server_stats is None:
-                server_stats = StatsEntry()
+                server_stats = self.server_stats_cache.get(server.server_id, StatsEntry())
+            else:
+                self.server_stats_cache[server.server_id] = server_stats
 
             # this one is synchronous :) makes the whole async stuff useless
             # lazy
